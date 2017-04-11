@@ -11,13 +11,21 @@ import org.scalatest.prop.GeneratorDrivenPropertyChecks
 class DoublePairsTest extends FunSuite with
                       GeneratorDrivenPropertyChecks with Matchers{
 
-  def positiveDoubles = Gen.containerOf[Array, Double](
-    Gen.choose(0, Double.MaxValue)
+  def randDoubles = Gen.containerOf[Array, Double](
+    Gen.choose(Double.MinValue, Double.MaxValue)
   ).filter(_.length > 2)
 
   test("Closest pair test should work for any array of size 2+"){
-    forAll (positiveDoubles) {
+    forAll (randDoubles) {
       ar => val (x, y) = closestPair(ar)
+      info(s"numbers are $x and $y")
+      x shouldNot(equal(y))
+    }
+  }
+
+  test("Farthest pair test should work for any array of size 2+"){
+    forAll (randDoubles) {
+      ar => val (x, y) = farthestPair(ar)
       info(s"numbers are $x and $y")
       x shouldNot(equal(y))
     }

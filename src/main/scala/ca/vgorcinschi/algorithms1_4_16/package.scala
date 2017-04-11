@@ -26,4 +26,26 @@ package object algorithms1_4_16 {
     }
     curClosestPair
   }
+
+  /*
+    find two values whose difference is no smaller than
+    the difference of any other pair in absolute value
+   */
+  def farthestPair(doubles: Array[Double]):(Double, Double) = {
+    require(doubles.isDefinedAt(1), s"The passed in array ${System.identityHashCode(doubles)}" +
+      s" has less then two elements")
+
+    val srted = doubles.sorted
+    var minDiff = Double.MinValue
+    var curFarthestPair = (srted(0), srted(1))
+
+    for{
+      i <- 1 until srted.length
+      if((srted(i)-srted(i-1)) > minDiff)
+    } {
+      minDiff = srted(i)-srted(i-1)
+      curFarthestPair = (srted(i-1), srted(i))
+    }
+    curFarthestPair
+  }
 }
